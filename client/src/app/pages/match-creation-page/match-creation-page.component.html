@@ -1,0 +1,70 @@
+<div class="nav">
+    <h1 class="page-title">Créer une partie</h1>
+    <div class="navigation-buttons">
+        <button mat-raised-button routerLink="/home"><mat-icon>home</mat-icon>Page principale</button>
+    </div>
+</div>
+<div id="match-creation-page">
+    <div id="game-list-container">
+        <h2>Liste des jeux</h2>
+        <cdk-virtual-scroll-viewport class="virtual-scroll" itemSize="50">
+            <mat-card id="game-card" [ngClass]="'clickable-item'" (click)="loadRandomGame()">
+                <mat-card-content id="game-card-content">
+                    <p id="game-title">Mode Aléatoire</p>
+                </mat-card-content>
+            </mat-card>
+
+            <app-pulse-loader *ngIf="isLoadingGames"></app-pulse-loader>
+
+            <app-game-list-item
+                *cdkVirtualFor="let game of games"
+                [game]="game"
+                [isAdminMode]="false"
+                (click)="loadSelectedGame(game)"
+            ></app-game-list-item>
+        </cdk-virtual-scroll-viewport>
+    </div>
+
+    <div id="game-details-container">
+        <h2>Détails du jeu {{ selectedGame ? '"' + selectedGame.title + '"' : '' }}</h2>
+
+        <cdk-virtual-scroll-viewport class="virtual-scroll" itemSize="50">
+            <div id="game-details" *ngIf="gameIsValid && !isLoadingSelectedGame; else elseBlock">
+                <div>
+                    <strong><i class="material-icons">notes</i> Description: </strong>
+                    <span id="game-description">{{ selectedGame.description }}</span>
+                </div>
+                <div id="time-container">
+                    <strong><i class="material-icons">access_time</i> Temps par QCM:</strong>
+                    <span id="game-time-duration">{{ selectedGame.duration }} sec.</span>
+                </div>
+                <div class="list" *ngIf="!isRandomGame">
+                    <strong><i class="material-icons">contact_support</i> Questions : </strong>
+                    <span id="game-questions" *ngFor="let question of selectedGame.questions; let i = index"
+                        >{{ i + 1 }}. {{ question.text }}<br
+                    /></span>
+                </div>
+                <div class="list" *ngIf="isRandomGame">
+                    <strong><i class="material-icons">contact_support</i> Questions : </strong>
+                    <span id="game-questions">Les questions sont générées aléatoirement !</span>
+                </div>
+            </div>
+
+            <ng-template #elseBlock>
+                <span *ngIf="!isLoadingSelectedGame">Sélectionner un jeu dans la liste des jeux</span>
+            </ng-template>
+
+            <app-pulse-loader *ngIf="isLoadingSelectedGame"></app-pulse-loader>
+        </cdk-virtual-scroll-viewport>
+
+        <div id="buttons-container">
+            <button mat-raised-button color="primary" (click)="createMatch(matchContext.TestPage)" *ngIf="gameIsValid && !isRandomGame">
+                Tester
+            </button>
+            <button mat-raised-button color="primary" (click)="createMatch(matchContext.HostView)" *ngIf="gameIsValid && !isRandomGame">Jouer</button>
+            <button mat-raised-button color="primary" (click)="createMatch(matchContext.RandomMode)" *ngIf="gameIsValid && isRandomGame">
+                Jouer
+            </button>
+        </div>
+    </div>
+</div>

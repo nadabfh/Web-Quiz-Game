@@ -1,0 +1,83 @@
+<div id="main-container">
+    <div class="nav">
+        <h1>Administration des jeux</h1>
+        <div class="navigation-buttons">
+            <button mat-raised-button routerLink="/home"><mat-icon>home</mat-icon>Page principale</button>
+        </div>
+    </div>
+    <div id="buttons-container">
+        <div id="new-game-buttons-container">
+            <button mat-raised-button color="primary" routerLink="/admin/games/new/"><mat-icon>add</mat-icon>Créer un nouveau jeu</button>
+            <input type="file" accept="application/json" class="file-input" (change)="this.onFileSelected($event)" #fileUpload />
+            <div class="file-upload">
+                <button mat-raised-button color="primary" class="upload-btn" (click)="fileUpload.click()">
+                    <mat-icon>upload</mat-icon>Importer un jeu (JSON)
+                </button>
+            </div>
+            <button mat-raised-button color="primary" routerLink="/admin/bank"><mat-icon>question_mark</mat-icon>Banque de questions</button>
+        </div>
+    </div>
+    <div class="games-container">
+        <h2>Liste des jeux existants</h2>
+        <mat-card id="game-header-card">
+            <mat-card-content id="game-header-content"
+                ><p>Titre du jeu</p>
+                <p>Date de dernière modification</p>
+                <div id="game-list-item-options"><p>Options</p></div>
+            </mat-card-content>
+        </mat-card>
+
+        <app-pulse-loader *ngIf="gameService.isLoadingGames"></app-pulse-loader>
+
+        <app-game-list-item
+            *ngFor="let game of this.gameService.games"
+            [game]="game"
+            (deleteGameFromList)="onDeleteGameFromList($event)"
+            [isAdminMode]="true"
+        >
+        </app-game-list-item>
+    </div>
+    <h1>Historique des parties</h1>
+    <div id="history-container">
+        <div id="history-options">
+            <button mat-raised-button color="primary" (click)="onDeleteHistory()" id="delete-history-button">
+                <mat-icon>delete</mat-icon>Supprimer l'historique
+            </button>
+            <div id="sort-history-options">
+                <p>Trier par:</p>
+                <mat-button-toggle-group #subject="matButtonToggleGroup" name="subject" value="date">
+                    <mat-button-toggle value="title">Titre</mat-button-toggle>
+                    <mat-button-toggle value="date">Date</mat-button-toggle>
+                </mat-button-toggle-group>
+
+                <p>Ordre:</p>
+                <mat-button-toggle-group #order="matButtonToggleGroup" name="order" value="ascending">
+                    <mat-button-toggle value="ascending">Croissant</mat-button-toggle>
+                    <mat-button-toggle value="descending">Décroissant</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+        </div>
+
+        <div id="history-item-container">
+            <mat-card class="history-card" id="history-header">
+                <mat-card-content class="history-content"
+                    ><p>Titre du jeu</p>
+                    <p>Date du début de la partie</p>
+                    <p>Nombre de joueurs</p>
+                    <p>Meilleur score</p>
+                </mat-card-content>
+            </mat-card>
+
+            <app-pulse-loader *ngIf="historyService.isLoadingHistory"></app-pulse-loader>
+
+            <mat-card *ngFor="let history of this.historyService.historyItems | sortHistory: order.value : subject.value" class="history-card">
+                <mat-card-content class="history-content">
+                    <p>{{ history.title }}</p>
+                    <p>{{ history.date | date: 'YYYY-MM-dd hh:mm:ss' }}</p>
+                    <p>{{ history.playersCount }}</p>
+                    <p>{{ history.bestScore }} pts</p>
+                </mat-card-content>
+            </mat-card>
+        </div>
+    </div>
+</div>

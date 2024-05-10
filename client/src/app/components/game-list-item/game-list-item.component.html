@@ -1,0 +1,32 @@
+<mat-card class id="game-card" [ngClass]="isAdminMode ? '' : 'clickable-item'">
+    <mat-card-content id="game-card-content">
+        <p id="game-title" [ngClass]="isAdminMode ? '' : 'full-grid'">{{ game.title }}</p>
+        <p id="game-date" *ngIf="isAdminMode">{{ game.lastModification | date: 'YYYY-MM-dd hh:mm:ss' }}</p>
+        <div *ngIf="isAdminMode" id="icons-container">
+            <button
+                mat-icon-button
+                (click)="toggleGameVisibility()"
+                matTooltip="{{ game.isVisible ? 'Cacher le jeu' : 'Afficher le jeu' }}"
+                matTooltipClass="button-tooltip"
+            >
+                <mat-icon *ngIf="game.isVisible">remove_red_eye</mat-icon>
+                <mat-icon *ngIf="!game.isVisible">visibility_off</mat-icon>
+            </button>
+            <button mat-icon-button (click)="downloadGameAsJson()" matTooltip="Télécharger le jeu" matTooltipClass="button-tooltip">
+                <mat-icon>file_download</mat-icon>
+            </button>
+            <button
+                mat-icon-button
+                color="primary"
+                routerLink="/admin/games/{{ game.id }}"
+                matTooltip="Modifier le jeu"
+                matTooltipClass="button-tooltip"
+            >
+                <mat-icon>create</mat-icon>
+            </button>
+            <button mat-icon-button (click)="deleteGame()" color="warn" matTooltip="Supprimer le jeu" matTooltipClass="button-tooltip">
+                <mat-icon>delete</mat-icon>
+            </button>
+        </div>
+    </mat-card-content>
+</mat-card>

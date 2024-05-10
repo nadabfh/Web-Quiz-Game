@@ -1,0 +1,183 @@
+.bank-container {
+    background-color: white;
+}
+
+.sidenav-active {
+    padding-right: 5px;
+}
+.sidenav {
+    width: 300px;
+}
+
+.bank-question {
+    width: 30%;
+}
+
+.question-container {
+    flex-grow: 1;
+    overflow-y: auto;
+}
+
+.drag-preview {
+    color: white;
+    font-size: 40px;
+    font-weight: bold;
+    background-color: goldenrod;
+    border-radius: 50%;
+    width: 100px;
+    height: 100px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.list-item {
+    cursor: grab;
+}
+
+.list-item:active {
+    cursor: grabbing;
+}
+
+.cdk-drag-preview {
+    cursor: grabbing;
+}
+
+.draggable-element.cdk-drag-preview {
+    pointer-events: auto;
+    cursor: grabbing;
+}
+
+.drop-destination {
+    text-align: center;
+    display: none;
+}
+
+.visible {
+    outline: none;
+    border: 1rem;
+    border-color: #9ecaed;
+    box-shadow: 0 0 5px #9ecaed;
+    animation: glow 0.5s alternate infinite;
+
+    @keyframes glow {
+        0% {
+            box-shadow: 0 0 5px #9ecaed;
+        }
+        100% {
+            box-shadow: 0 0 30px #9ecaed;
+        }
+    }
+}
+
+.bank-message {
+    text-align: center;
+    margin: 0 10px;
+}
+
+.cdk-drag-handle {
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    z-index: 100;
+    background-color: transparent;
+    cursor: move;
+}
+
+.list {
+    min-height: 100px;
+}
+
+.empty-list {
+    border: dashed 1px;
+}
+
+.create-notice {
+    text-align: center;
+    color: grey;
+}
+
+.game-form-details {
+    display: flex;
+    gap: 2rem;
+    font-size: 1.2rem;
+}
+
+.game-description {
+    width: 65%;
+}
+
+.duration-card {
+    width: 75%;
+    font-size: 1.2rem;
+}
+
+.duration-slider {
+    display: flex;
+    gap: 1rem;
+}
+
+.page-title {
+    display: inline-block;
+}
+.sidenav-container {
+    position: absolute;
+    top: 0;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 1rem 8rem;
+}
+
+mat-sidenav {
+    width: 15vw;
+}
+
+.game-questions-list {
+    margin: 2rem 0;
+}
+
+.item-container {
+    margin-left: 0.5rem;
+    width: 70vw;
+}
+
+.sidenav-close {
+    display: flex;
+    justify-content: flex-end;
+}
+
+.sidenav-close button {
+    font-size: 24px;
+}
+
+.questions-button {
+    display: flex;
+    gap: 1rem;
+}
+
+.game-container {
+    display: flex;
+    flex-direction: column;
+    margin-top: 10rem;
+}
+
+.bank-scroll {
+    height: 100vh;
+}
+
+.game-scroll {
+    height: 50vh;
+}
+
+.submit-button:not([disabled]) {
+    background-color: #499d37;
+    color: white;
+}
+
+#header-bar {
+    position: fixed;
+    z-index: 999;
+    background-color: #fafafa;
+    width: 75vw;
+}

@@ -1,0 +1,122 @@
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" />
+<app-alert #panicAlert></app-alert>
+<app-chat></app-chat>
+<div id="main-container">
+    <div id="question-area">
+        <div id="question-timer-area">
+            <div
+                id="score-feedback-area"
+                *ngIf="
+                    (this.answerService.showFeedback && context === matchContext.PlayerView && !this.matchRoomService.isCooldown) ||
+                        (this.answerService.showFeedback && (context === matchContext.TestPage || context === matchContext.RandomMode));
+                    else elseBlock
+                "
+            >
+                <h1 id="score">SCORE : {{ this.answerService.playerScore }}</h1>
+                <div>
+                    <h1 class="points" *ngIf="!this.answerService.answerCorrectness" class="wrong-answer">😔 Mauvaise Réponse 😔</h1>
+                    <h1 class="points" *ngIf="this.answerService.answerCorrectness === answerOptions.OK" class="ok-answer">
+                        🆗 Réponse partielle! Vous avez obtenu {{ this.currentQuestion.points / 2 }} points 🆗
+                    </h1>
+                    <h1 class="points" *ngIf="this.answerService.answerCorrectness === answerOptions.GOOD" class="good-answer">
+                        👏 Bonne Réponse! Vous avez obtenu {{ this.currentQuestion.points }} points 👏
+                    </h1>
+                    <h1 class="points" class="good-answer" *ngIf="this.answerService.bonusPoints > 0">
+                        ✨ Vous avez obtenu un bonus de {{ this.answerService.bonusPoints }} points!✨
+                    </h1>
+                </div>
+            </div>
+
+            <ng-template #elseBlock>
+                <div id="score-area" *ngIf="context !== matchContext.HostView">
+                    <h1 id="score">
+                        SCORE :
+                        {{ this.answerService.playerScore }}
+                    </h1>
+                </div>
+            </ng-template>
+
+            <div id="question">
+                <div id="question-text-container">
+                    <h1>{{ this.currentQuestion!.text }}</h1>
+                </div>
+                <h1 id="points" *ngIf="!this.matchRoomService.isCooldown">{{ currentQuestion.points }} points</h1>
+            </div>
+
+            <div id="timer-area">
+                <mat-progress-spinner [value]="this.timeService.computeTimerProgress()" mode="determinate" diameter="90"> </mat-progress-spinner>
+                <h2 id="time-left">
+                    {{ time }}
+                </h2>
+            </div>
+        </div>
+
+        <div
+            class="choice-container"
+            *ngIf="!this.matchRoomService.isCooldown || context === matchContext.TestPage || context === matchContext.RandomMode"
+        >
+            <app-multiple-choice-area *ngIf="currentQuestion.type === questionType.MultipleChoice" class="choice-area"></app-multiple-choice-area>
+            <app-long-answer-area *ngIf="currentQuestion.type === questionType.LongAnswer" class="choice-area"></app-long-answer-area>
+        </div>
+
+        <div
+            id="submit-button-container"
+            *ngIf="context === matchContext.PlayerView || context === matchContext.TestPage || context === matchContext.RandomMode"
+        >
+            <button mat-raised-button color="primary" id="submit-button" *ngIf="this.answerService.isSelectionEnabled" (click)="submitAnswers()">
+                SOUMETTRE
+            </button>
+        </div>
+    </div>
+    <div>
+        <app-audio-player [audioUrl]=""></app-audio-player>
+    </div>
+</div>
+<div class="controls-container">
+    <div id="host-area" *ngIf="context === matchContext.HostView && !this.matchRoomService.isCooldown">
+        <button mat-raised-button *ngIf="this.answerService.isEndGame" color="primary" (click)="routeToResultsPage()">
+            <mat-icon class="material-icons">bar_chart</mat-icon>
+            <p>Présenter les résultats finaux</p>
+        </button>
+        <button
+            *ngIf="!this.answerService.isEndGame"
+            mat-raised-button
+            color="primary"
+            (click)="goToNextQuestion()"
+            [disabled]="!this.answerService.isNextQuestionButtonEnabled"
+        >
+            <mat-icon class="material-icons">skip_next</mat-icon>
+            <p>QUESTION SUIVANTE</p>
+        </button>
+        <div id="timer-controls" *ngIf="!answerService.showFeedback && !answerService.gradeAnswers">
+            <button mat-raised-button id="pause-button" (click)="pauseTimer()" (click)="timeService.togglePauseStatus()" [disabled]="time === 0">
+                <div class="timer-button-description">
+                    <mat-icon *ngIf="!timeService.isTimerPaused">pause</mat-icon>
+                    <p *ngIf="!timeService.isTimerPaused">SUSPENDRE LA MINUTERIE</p>
+                </div>
+                <div class="timer-button-description">
+                    <mat-icon *ngIf="timeService.isTimerPaused">play_arrow</mat-icon>
+                    <p *ngIf="timeService.isTimerPaused">PARTIR LA MINUTERIE</p>
+                </div>
+            </button>
+
+            <button
+                mat-raised-button
+                id="panic-button"
+                color="accent"
+                [disabled]="this.timeService.isPanicModeDisabled || this.timeService.isPanicking"
+                (click)="triggerPanicTimer()"
+            >
+                <div class="timer-button-description">
+                    <mat-icon>priority_high</mat-icon>
+                    <p>MODE PANIQUE</p>
+                </div>
+            </button>
+        </div>
+    </div>
+    <button mat-raised-button class="exit-button" color="primary" routerLink="/home" (click)="quitGame()">
+        <mat-icon class="material-icons">logout</mat-icon>
+        <p>QUITTER</p>
+    </button>
+</div>
+<app-players-list [players]="this.matchRoomService.players" *ngIf="context !== matchContext.TestPage"></app-players-list>

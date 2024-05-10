@@ -1,0 +1,45 @@
+#choice-area {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 0.5rem;
+    position: fixed;
+    top: 55vh;
+    align-self: center;
+}
+
+.answer {
+    padding: 2rem;
+    width: 30vw;
+    height: 15vh;
+    font-size: 1rem;
+    overflow: hidden;
+}
+
+.answer p {
+    max-width: 30vw;
+    max-height: 15vh;
+}
+
+button.answer.selected {
+    background-color: #bebebe;
+    color: white;
+    transform: scale(0.96);
+}
+
+.answer.correct {
+    background-color: #4caf50;
+    color: white;
+}
+
+.answer.incorrect {
+    background-color: #f44336;
+    color: white;
+}
+
+#histogram-container {
+    align-self: center;
+    position: fixed;
+    top: 40vh;
+    left: 30vw;
+    right: 30vw;
+}

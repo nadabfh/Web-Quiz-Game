@@ -1,0 +1,43 @@
+<app-chat></app-chat>
+<div id="main-container">
+    <button mat-raised-button id="exit-button" routerLink="/home" (click)="quitGame()">
+        <p>QUITTER</p>
+        <i class="material-icons">logout</i>
+    </button>
+    <div class="centered-container" *ngIf="matchRoomService.isMatchStarted">
+        <div id="game-starting">
+            <h1>Le jeu {{ this.matchRoomService.gameTitle }} commence dans..</h1>
+            <div id="timer">
+                <mat-progress-spinner [value]="timeService.computeTimerProgress()" mode="determinate" diameter="350"> </mat-progress-spinner>
+                <h2 id="time-left">
+                    {{ timeService.time }}
+                </h2>
+            </div>
+        </div>
+    </div>
+    <div id="waiting-for-players" *ngIf="!matchRoomService.isMatchStarted">
+        <h1>La partie va bientôt commencer...</h1>
+        <div *ngIf="isHost" id="host-options-container">
+            <h2>Code d'accès</h2>
+            <p *ngIf="isHost" id="code">{{ matchRoomService.getRoomCode() }}</p>
+            <mat-slide-toggle [(ngModel)]="isLocked" (click)="toggleLock()">{{
+                isLocked ? 'Partie verrouillée' : 'Partie déverouillée'
+            }}</mat-slide-toggle>
+            <button
+                mat-raised-button
+                id="start-button"
+                color="primary"
+                (click)="startMatch()"
+                [disabled]="!isLocked || matchRoomService.players.length === 0"
+            >
+                Commencer la partie
+            </button>
+        </div>
+        <mat-card *ngFor="let player of matchRoomService.players" class="player-username-card">
+            <p>{{ player.username }}</p>
+            <button mat-icon-button (click)="banPlayerUsername(player.username)" color="warn" *ngIf="isHost">
+                <mat-icon *ngIf="player.username !== 'Organisateur'">delete</mat-icon>
+            </button>
+        </mat-card>
+    </div>
+</div>

@@ -1,0 +1,210 @@
+// Custom Theming for Angular Material
+// For more information: https://material.angular.io/guide/theming¸¸
+@use '@angular/material' as mat;
+// Plus imports for other components in your app.
+
+// Include the common styles for Angular Material. We include this here so that you only
+// have to load a single css file for Angular Material in your app.
+// Be sure that you only ever include this mixin once!
+@include mat.core();
+
+$main-theme: mat.define-light-theme(
+    (
+        color: (
+            primary: mat.define-palette(mat.$indigo-palette),
+            accent: mat.define-palette(mat.$pink-palette, A200, A100, A400),
+            warn: mat.define-palette(mat.$red-palette),
+        ),
+    )
+);
+
+// Include theme styles for core and each component used in your app.
+// Alternatively, you can import and @include the theme mixins for each component
+// that you are using.
+@include mat.all-component-themes($main-theme);
+
+/* You can add global styles to this file, and also import other style files */
+
+html,
+body {
+    height: 100%;
+}
+body {
+    margin: 0;
+    font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.top-page {
+    display: flex;
+}
+
+.add-button-container {
+    box-sizing: border-box;
+}
+
+.add-question-button {
+    box-sizing: border-box;
+    border-style: dashed;
+    border-color: rgba(0, 0, 0, 0.42);
+    display: block;
+    height: 48px;
+    width: 100%;
+}
+
+.empty-list-card {
+    text-align: center;
+}
+.main-container {
+    padding: 1rem 8rem;
+    margin-bottom: 25vh;
+    display: flex;
+    flex-direction: column;
+    min-height: 100%;
+}
+
+.container {
+    height: 100%;
+}
+
+.buttons-container {
+    display: flex;
+    gap: 1rem;
+    margin-bottom: 1rem;
+}
+
+.buttons-rack {
+    flex-direction: column;
+}
+
+.error-snackbar {
+    --mdc-snackbar-container-color: #cc0000;
+    --mat-snack-bar-button-color: white;
+    white-space: pre-wrap;
+}
+
+.success-snackbar {
+    --mdc-snackbar-container-color: #4bb543;
+    --mat-snack-bar-button-color: white;
+    white-space: pre-wrap;
+}
+
+.custom-placeholder {
+    height: 48px;
+    border: solid 1px #ccc;
+    margin-bottom: 8px;
+    border-radius: 4px;
+}
+
+.cdk-drag-preview {
+    box-sizing: border-box;
+    border-radius: 4px;
+    box-shadow:
+        0 5px 5px -3px rgba(0, 0, 0, 0.2),
+        0 8px 10px 1px rgba(0, 0, 0, 0.14),
+        0 3px 14px 2px rgba(0, 0, 0, 0.12);
+}
+
+.cdk-drag-placeholder {
+    opacity: 0;
+}
+
+.cdk-drag-animating {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.question:last-child {
+    border: none;
+}
+
+.list.cdk-drop-list-dragging .question:not(.cdk-drag-placeholder) {
+    transition: transform 250ms cubic-bezier(0, 0, 0.2, 1);
+}
+
+.question {
+    width: 100%;
+    color: rgba(0, 0, 0, 0.87);
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+    background: white;
+    font-size: 14px;
+    cursor: move;
+}
+
+.short-question {
+    width: 13vw;
+    padding: 20px 10px;
+    border-bottom: solid 1px #ccc;
+}
+
+.mat-button-toggle-button,
+.toggle {
+    height: inherit;
+    width: inherit;
+}
+
+.spaced {
+    margin-bottom: 1rem;
+}
+
+.nav {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin: 0;
+}
+
+.navigation-buttons {
+    margin: 0;
+}
+
+.virtual-scroll {
+    height: 100vh;
+}
+
+.centered-container {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+}
+
+.question-type {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+}
+
+.color-variant {
+    background-color: rgb(247, 246, 255) !important;
+}
+
+.controls-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: fixed;
+    bottom: 0;
+    right: 0;
+    gap: 0.75rem;
+    width: 20vw;
+    height: 20vh;
+    z-index: 99;
+}
+
+.exit-button {
+    display: flex;
+    gap: 1rem;
+}
+
+.material-icons {
+    font-size: 1.5rem;
+}
+
+.controls-container button {
+    width: 15vw;
+}

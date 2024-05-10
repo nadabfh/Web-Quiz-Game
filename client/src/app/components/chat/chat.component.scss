@@ -1,0 +1,123 @@
+#main-chat-container {
+    height: 100vh;
+    width: 20vw;
+    background-color: #bebebe3a;
+    position: fixed;
+    bottom: 0;
+    overflow-y: auto;
+}
+
+#current-username {
+    margin-left: 1rem;
+    position: fixed;
+}
+
+#messages-container {
+    position: fixed;
+    top: 10vh;
+    height: 75vh;
+    width: 20vw;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+@keyframes slideUp {
+    0% {
+        transform: translateY(100%);
+        opacity: 0;
+    }
+    100% {
+        transform: translateY(0);
+        opacity: 1;
+    }
+}
+
+.message-container {
+    position: relative;
+    overflow-wrap: break-word;
+    margin: 0.5rem;
+    padding: 0.625rem 1.25rem;
+    border-radius: 1.125rem;
+    animation: slideUp 0.15s;
+}
+
+.message-info-container {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+.message-text-container {
+    background-color: #fff;
+    border-radius: 0.5rem;
+    padding: 0.5rem;
+}
+
+.message-author {
+    font-weight: 600;
+}
+
+.own-message {
+    background-color: #5b6feb;
+    color: #fff;
+    border-radius: 1em 1em 0.15em 1em;
+}
+
+.received-message {
+    border-radius: 1em 1em 1em 0.15em;
+}
+
+.host-message {
+    background-color: #000;
+    color: #fff;
+}
+
+.player-quit-message {
+    background-color: transparent;
+    font-size: 20px;
+}
+
+.right-message {
+    margin-right: -0.65vw;
+}
+
+.left-message {
+    margin-left: -0.75vw;
+}
+
+.disabled-send {
+    cursor: not-allowed;
+    opacity: 0.5;
+}
+
+#chat-form {
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    height: 100%;
+    margin: 1;
+}
+
+#chat-input-container {
+    position: relative;
+}
+
+.mat-form-field {
+    width: calc(100% - 48px);
+}
+
+input[matInput] {
+    width: 100%;
+    max-width: 17vw;
+}
+
+#chat-send-icon {
+    position: absolute;
+    right: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 24px;
+    cursor: pointer;
+}

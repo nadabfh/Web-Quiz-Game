@@ -1,0 +1,27 @@
+<div class="main-container justified mat-typography">
+    <div class="header-container">
+        <i class="material-icons" id="game-logo">flutter_dash</i>
+        <h1 class="header-item">Hoot Hoot</h1>
+    </div>
+
+    <div class="match-buttons">
+        <button mat-raised-button (click)="openJoinDialog()" color="primary" class="match-button" id="join-button">
+            <mat-icon>play_circle</mat-icon>
+            Joindre une partie
+        </button>
+        <button mat-raised-button color="primary" routerLink="/host" class="match-button" id="host-button">
+            <mat-icon>add_circle</mat-icon>
+            Créer une partie
+        </button>
+    </div>
+
+    <button mat-raised-button color="basic" (click)="openAdminDialog()" class="match-button" id="admin-button">Administrer les jeux</button>
+
+    <footer class="footer-container">
+        <h4 class="team-name">Équipe 305:</h4>
+        <p>
+            <span>Ikram Arroud</span>, <span>Nada Benelfellah</span>, <span>Victoria-Mae Carrière</span>, <span>Abdul-Wahab Chaarani</span>,
+            <span>Hiba Chaarani</span>, <span>Adam Kassi-Lahlou</span>
+        </p>
+    </footer>
+</div>

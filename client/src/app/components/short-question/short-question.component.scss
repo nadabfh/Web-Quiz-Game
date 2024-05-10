@@ -1,0 +1,30 @@
+.short-question-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.question-type {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    gap: 1rem;
+}
+
+.short-question-content {
+    display: inline-block;
+}
+
+.short-question-text {
+    max-width: fit-content;
+    word-wrap: break-word;
+}
+
+.question-type {
+    margin: 0;
+    padding: 0;
+}
+
+.short-question {
+    font-size: 1.2rem;
+}

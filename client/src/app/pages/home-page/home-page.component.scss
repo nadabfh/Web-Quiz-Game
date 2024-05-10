@@ -1,0 +1,55 @@
+.main-container {
+    min-height: 100vh;
+}
+
+.justified {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#game-logo {
+    font-size: 5rem;
+}
+
+.header-container {
+    margin-top: 10vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 3pt;
+}
+
+.match-buttons-container {
+    display: flex;
+    gap: 15pt;
+}
+
+.match-buttons {
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+}
+.match-button {
+    padding: 2.5rem 4rem;
+    font-size: 1.25rem;
+}
+
+.team-name {
+    margin-top: 0.25em;
+    margin-bottom: 0.25em;
+}
+
+.header-item {
+    justify-content: center;
+    text-align: center;
+}
+
+.footer-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    text-align: left;
+    gap: 1rem;
+}

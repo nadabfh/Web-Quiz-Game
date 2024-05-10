@@ -1,0 +1,61 @@
+<div id="main-container">
+    <div class="answer-area" *ngIf="matchContextService.getContext() !== 'hostView'">
+        <div class="prompt">
+            <h1 [class.hidden]="answerService.isSelectionEnabled || this.answerService.showFeedback">En attente de correction...</h1>
+        </div>
+        <form class="long-answer-form">
+            <mat-form-field class="text-form" appearance="outline">
+                <mat-label class="text-label">Réponse</mat-label>
+                <textarea
+                    class="text-input"
+                    matInput
+                    #message
+                    [attr.maxlength]="answerMaxLength"
+                    [(ngModel)]="answerService.currentLongAnswer"
+                    name="answer"
+                    [disabled]="!answerService.isSelectionEnabled"
+                    (input)="answerService.updateLongAnswer()"
+                ></textarea>
+                <mat-hint align="end">{{ message.value.length }} / {{ answerMaxLength }}</mat-hint>
+            </mat-form-field>
+        </form>
+    </div>
+
+    <div id="histogram-container" *ngIf="matchContextService.getContext() === 'hostView'">
+        <app-long-answer-histogram *ngIf="!this.answerService.gradeAnswers && !this.answerService.isGradingComplete"></app-long-answer-histogram>
+    </div>
+
+    <div class="grading-area" *ngIf="matchContextService.getContext() === 'hostView' && this.answerService.gradeAnswers">
+        <div class="prompt">
+            <h1>Veuillez noter les réponses des joueurs!</h1>
+        </div>
+        <cdk-virtual-scroll-viewport class="grades-scroll" itemSize="350">
+            <div *cdkVirtualFor="let player of this.answerService.playersAnswers | sortAnswers" class="player-answer">
+                <mat-card class="answer-card">
+                    <div>
+                        <mat-card-title class="player-username"> {{ player.username }} </mat-card-title>
+                        <mat-card-content class="player-answer"> {{ player.answer }} </mat-card-content>
+                    </div>
+                    <div class="score">
+                        <mat-button-toggle-group name="answerValue" [(ngModel)]="player.score" (change)="this.answerService.handleGrading()">
+                            <mat-button-toggle *ngFor="let answerOption of answerOptions; let i = index" [value]="answerOption" class="grade-toggle">
+                                <p>{{ answerOption }}%</p>
+                            </mat-button-toggle>
+                        </mat-button-toggle-group>
+                    </div>
+                </mat-card>
+            </div>
+        </cdk-virtual-scroll-viewport>
+
+        <button
+            mat-raised-button
+            color="primary"
+            id="submit-button"
+            [disabled]="!this.answerService.isGradingComplete"
+            (click)="this.answerService.sendGrades()"
+        >
+            <p *ngIf="this.answerService.isGradingComplete">SOUMETTRE CORRECTION</p>
+            <p *ngIf="!this.answerService.isGradingComplete">Il reste des joueurs à évaluer</p>
+        </button>
+    </div>
+</div>

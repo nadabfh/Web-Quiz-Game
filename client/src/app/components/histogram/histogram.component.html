@@ -1,0 +1,9 @@
+<div>
+    <ag-charts-angular class="chart" [options]="chartOptions"> </ag-charts-angular>
+</div>
+
+<div id="legend-container">
+    <div *ngFor="let choice of choiceTally; let i = index" class="legend">
+        <p>C{{ i + 1 }} : {{ choice.text }}</p>
+    </div>
+</div>

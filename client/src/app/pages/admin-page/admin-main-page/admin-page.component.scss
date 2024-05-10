@@ -1,0 +1,94 @@
+#main-container {
+    padding: 1rem 8rem;
+    margin-bottom: 25vh;
+}
+#buttons-container {
+    display: flex;
+    justify-content: space-between;
+}
+#new-game-buttons-container {
+    display: flex;
+    gap: 2rem;
+}
+#game-list-information-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+.file-input {
+    display: none;
+}
+
+#history-container {
+    display: flex;
+    flex-direction: column;
+}
+
+#history-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+#delete-history-button {
+    width: 10vw;
+}
+
+#history-item-container {
+    display: flex;
+    flex-direction: column;
+}
+
+.history-card {
+    box-shadow: 2px 0 2.5px 0 10px;
+    border-radius: 5pt;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin: 0;
+}
+
+.history-content {
+    padding: 0 1rem !important;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-left: 8px;
+    gap: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr 1fr;
+    justify-content: space-between;
+    align-items: center;
+}
+
+#game-header-content {
+    padding: 0 1rem !important;
+    padding-top: 0;
+    padding-bottom: 0;
+    margin-left: 8px;
+    gap: 0;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    justify-content: space-around;
+    align-items: center;
+}
+
+#sort-history-options {
+    display: flex;
+    flex-direction: row;
+    gap: 1rem;
+    align-items: center;
+    justify-content: flex-end;
+}
+
+#history-header,
+#game-header-card {
+    background-color: rgb(0, 0, 0, 0.05);
+    font-weight: 500;
+}
+
+#game-list-item-options {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    padding-right: 5rem;
+}

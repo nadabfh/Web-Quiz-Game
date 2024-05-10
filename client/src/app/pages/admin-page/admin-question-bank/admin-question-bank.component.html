@@ -1,0 +1,52 @@
+<div class="main-container">
+    <div class="nav">
+        <h1 class="page-title">Banque de questions</h1>
+        <div class="navigation-buttons buttons-container">
+            <button mat-raised-button routerLink="/admin/games"><mat-icon>arrow_back</mat-icon>Page précédente</button>
+            <button mat-raised-button routerLink="/home"><mat-icon>home</mat-icon>Page principale</button>
+        </div>
+    </div>
+    <div class="buttons-container">
+        <button id="add-question-button" mat-raised-button color="primary" (click)="openDialog()">
+            <mat-icon>add</mat-icon>Ajouter une nouvelle question
+        </button>
+    </div>
+    <div class="question-container container">
+        <mat-card *ngIf="!bankService.isLoadingBank && bankService.questions.length === 0" class="empty-list-card">
+            <mat-card-content class="empty-list-card">
+                <p><mat-icon>catching_pokemon</mat-icon> La banque de question est vide! <mat-icon>catching_pokemon</mat-icon></p>
+                <p>Cliquez sur <mat-icon>add</mat-icon> pour ajouter votre première question!</p>
+            </mat-card-content>
+        </mat-card>
+
+        <div id="sort-questions">
+            <p>Filtrer par:</p>
+            <mat-button-toggle-group #filterType="matButtonToggleGroup" name="filterType" value="">
+                <mat-button-toggle value="">Tout</mat-button-toggle>
+                <mat-button-toggle value="QCM">QCM</mat-button-toggle>
+                <mat-button-toggle value="QRL">QRL</mat-button-toggle>
+            </mat-button-toggle-group>
+        </div>
+
+        <app-pulse-loader *ngIf="bankService.isLoadingBank"></app-pulse-loader>
+
+        <mat-accordion class="list bank-list" multi="false" #accordion>
+            <app-question-list-item
+                class="question bank-question"
+                *ngFor="
+                    let question of bankService.questions | sortByLastModification: 'descending' | filterByQuestionType: filterType.value;
+                    let i = index
+                "
+                [question]="question"
+                [isBankQuestion]="true"
+                (deleteQuestionEvent)="deleteQuestion($event)"
+                (updateQuestionEvent)="updateQuestion($event)"
+                [isExpanded]="i === 0"
+            >
+                <div cdkDragHandle></div>
+            </app-question-list-item>
+        </mat-accordion>
+
+        <p>{{ response }}</p>
+    </div>
+</div>

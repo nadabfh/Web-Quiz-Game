@@ -1,0 +1,41 @@
+<app-chat id="chat-box"></app-chat>
+<div id="main-container">
+    <h1>Résultats</h1>
+    <div id="info-container">
+        <mat-paginator
+            #paginator
+            class="demo-paginator"
+            (page)="handlePageEvent($event)"
+            [length]="histogramsGame.length"
+            [pageSize]="1"
+            [disabled]="false"
+            [showFirstLastButtons]="true"
+            [pageSizeOptions]="[1]"
+            [hidePageSize]="false"
+            [pageIndex]="currentQuestionIndex"
+            aria-label="Select page"
+        >
+        </mat-paginator>
+        <div *ngIf="isQuestionMultipleChoice()">
+            <app-histogram
+                *ngIf="this.histogramsGame.length !== 0"
+                [isResultsPage]="true"
+                [currentHistogram]="currentMultipleChoiceHistogram"
+            ></app-histogram>
+        </div>
+        <div *ngIf="isQuestionLongAnswer()">
+            <app-long-answer-histogram
+                *ngIf="this.histogramsGame.length !== 0"
+                [isResultsPage]="true"
+                [currentLongAnswerHistogram]="currentLongAnswerHistogram"
+            ></app-long-answer-histogram>
+        </div>
+    </div>
+    <div class="controls-container">
+        <button mat-raised-button class="exit-button" color="primary" (click)="handleDisconnect()" routerLink="/home">
+            <mat-icon class="material-icons">logout</mat-icon>
+            <p>QUITTER</p>
+        </button>
+    </div>
+</div>
+<app-players-list [players]="players" [canHostToggleChatState]="false"></app-players-list>

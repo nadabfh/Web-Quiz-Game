@@ -1,0 +1,41 @@
+<div id="main-chat-container">
+    <h2 id="current-username">{{ this.matchRoomService.getUsername() }}</h2>
+    <div id="messages-container" #messagesContainer>
+        <div
+            *ngFor="let message of this.matchRoomService.messages"
+            class="message-container"
+            [ngClass]="message.author === this.matchRoomService.getUsername() ? 'right-message' : 'left-message'"
+        >
+            <div class="message-info-container">
+                <p class="message-author">{{ message.author }}</p>
+                <p>{{ message.date | date: 'hh:mm' }}</p>
+            </div>
+            <div
+                class="message-text-container"
+                [ngClass]="[
+                    message.author === this.matchRoomService.getUsername() ? 'own-message' : 'received-message',
+                    message.author === 'Organisateur' ? 'host-message' : '',
+                    message.author === '' ? 'player-quit-message' : ''
+                ]"
+            >
+                <p>{{ message.text }}</p>
+            </div>
+        </div>
+    </div>
+
+    <form id="chat-form">
+        <mat-form-field id="chat-input-container">
+            <mat-label>{{ disableMessagingField ? 'Désactivé' : 'Message' }}</mat-label>
+            <input
+                id="chat-input"
+                matInput
+                #message
+                maxlength="200"
+                [placeholder]="'...'"
+                (keydown.enter)="sendMessage(message.value); message.value = ''"
+                [disabled]="disableMessagingField"
+            />
+            <mat-icon id="chat-send-icon"  [ngClass]="{ 'disabled-send': disableMessagingField }" (click)="sendMessage(message.value); message.value = ''">send</mat-icon>
+        </mat-form-field>
+    </form>
+</div>

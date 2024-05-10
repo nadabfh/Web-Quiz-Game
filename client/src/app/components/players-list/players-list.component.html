@@ -1,0 +1,45 @@
+<div id="players-main-container">
+    <h2>Joueurs</h2>
+    <div *ngIf="this.matchRoomService.getUsername() === 'Organisateur' && this.matchContextService.getContext() !== context.RandomMode">
+        <div id="sort-options">
+            <div>
+                <p>Trier par:</p>
+                <mat-button-toggle-group #subject="matButtonToggleGroup" value="score">
+                    <mat-button-toggle value="name">Nom</mat-button-toggle>
+                    <mat-button-toggle value="score">Score</mat-button-toggle>
+                    <mat-button-toggle value="state">État</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+            <div>
+                <p>Ordre:</p>
+                <mat-button-toggle-group #order="matButtonToggleGroup" name="order" value="descending">
+                    <mat-button-toggle value="ascending">ASC</mat-button-toggle>
+                    <mat-button-toggle value="descending">DESC</mat-button-toggle>
+                </mat-button-toggle-group>
+            </div>
+        </div>
+        <div *ngFor="let player of this.players | sortPlayers: order.value : subject.value" class="player-card">
+            <p [ngClass]="[player.state, player.isPlaying ? '' : 'inactive-player']">{{ player.username }}</p>
+            <div class="player-performance">
+                <p>{{ player.score }} pts</p>
+                <p>({{ player.bonusCount }}✨)</p>
+            </div>
+           <!-- <mat-slide-toggle [(ngModel)]="player.isChatActive" (click)="toggleChat(player)"></mat-slide-toggle>--> 
+           <p>
+           <button *ngIf="this.canHostToggleChatState" class="chat-toggle-button" (click)="toggleChat(player)" [attr.chat-message]="player.isChatActive ? 'Désactiver le droit de clavarder' : 'Réactiver le droit de clavarder'">
+            <i class="material-icons">{{ player.isChatActive ? 'speaker_notes' : 'speaker_notes_off' }}</i>
+          </button>
+        </p>
+        
+        </div>
+    </div>
+    <div *ngIf="this.matchRoomService.getUsername() !== 'Organisateur' || this.matchContextService.getContext() === context.RandomMode">
+        <div *ngFor="let player of this.players | sortByScore" class="player-card">
+            <p [ngClass]="player.isPlaying ? '' : 'inactive-player'">{{ player.username }}</p>
+            <div class="player-performance">
+                <p>{{ player.score }} pts</p>
+                <p>({{ player.bonusCount }}✨)</p>
+            </div>
+        </div>
+    </div>
+</div>

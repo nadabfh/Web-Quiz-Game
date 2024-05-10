@@ -1,0 +1,100 @@
+<div class="form-container">
+    <form [formGroup]="questionForm" class="question-form" (ngSubmit)="onSubmit()">
+        <mat-form-field class="question-text-container">
+            <mat-label>Question</mat-label>
+            <input class="question-input" matInput formControlName="text" placeholder="Texte de la question" />
+        </mat-form-field>
+
+        <div id="question-properties-options-container">
+            <div id="question-options">
+                <mat-form-field>
+                    <mat-label>{{ this.isActiveSubmit() ? ' Type de Question' : questionForm.get('type')?.value }}</mat-label>
+                    <mat-select formControlName="type">
+                        <span *ngIf="this.isActiveSubmit()">
+                            <mat-option *ngFor="let type of ['QCM', 'QRL']" [value]="type">{{ type }}</mat-option>
+                        </span>
+                    </mat-select>
+                </mat-form-field>
+
+                <mat-form-field>
+                    <mat-label>Points</mat-label>
+                    <mat-select formControlName="points">
+                        <mat-option *ngFor="let point of [10, 20, 30, 40, 50, 60, 70, 80, 90, 100]" [value]="point">{{ point }}</mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <div *ngIf="modificationState === managementState.GameCreate">
+                    <mat-slide-toggle
+                        [ngModelOptions]="{ standalone: true }"
+                        name="bankToggle"
+                        ngDefaultControl
+                        [(ngModel)]="bankService.addToBank"
+                        color="primary"
+                        ><p>Ajouter à la banque</p></mat-slide-toggle
+                    >
+                </div>
+
+                <div>
+                    <button
+                        *ngIf="this.isActiveSubmit()"
+                        mat-raised-button
+                        color="primary"
+                        type="submit"
+                        class="submit-button"
+                        [disabled]="!questionForm.valid"
+                    >
+                        <mat-icon>check</mat-icon>
+                        {{ getButtonText() }}
+                    </button>
+                </div>
+            </div>
+            <div class="question-properties">
+                <div *ngIf="questionForm.get('type')?.value !== 'QCM'" class="empty-container">
+                    <i class="material-icons empty-icon">flutter_dash</i>
+                </div>
+                <div cdkDropList (cdkDropListDropped)="dropChoice($event)" *ngIf="questionForm.get('type')?.value === 'QCM'">
+                    <div formArrayName="choices" class="choices-container" *ngFor="let text of choices.controls; let i = index">
+                        <div class="choice-container" cdkDrag>
+                            <div class="choice-container" [formGroupName]="i">
+                                <mat-form-field class="choice-input-container">
+                                    <p class="choice-number" matPrefix>{{ i + 1 }}.</p>
+                                    <input class="choice-input" matInput formControlName="text" placeholder="Choix de réponse" />
+                                    <span matSuffix class="choice-buttons">
+                                        <input
+                                            type="checkbox"
+                                            formControlName="isCorrect"
+                                            class="correct-choice pointer-on-hover"
+                                            matTooltip="Cocher pour rendre le choix vrai"
+                                        />
+                                        <button
+                                            mat-icon-button
+                                            type="button"
+                                            class="pointer-on-hover"
+                                            (click)="removeChoice(i)"
+                                            color="accent"
+                                            matTooltip="Supprimer le choix"
+                                            matTooltipClass="button-tooltip"
+                                        >
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+
+                                        <svg width="20px" fill="currentColor" viewBox="0 0 24 24" cdkDragHandle class="pointer-on-hover">
+                                            <path
+                                                d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"
+                                            ></path>
+                                            <path d="M0 0h24v24H0z" fill="none"></path>
+                                        </svg>
+                                    </span>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                    <button mat-raised-button color="primary" class="add-button" type="button" (click)="addChoice()">
+                        <mat-icon>add</mat-icon>
+                        Ajouter un choix de réponse
+                    </button>
+                </div>
+                <div *ngIf="questionForm.get('type')?.value === 'QRL'"></div>
+            </div>
+        </div>
+    </form>
+</div>

@@ -1,0 +1,40 @@
+<mat-expansion-panel class="question-card" *ngIf="question" [ngClass]="question.type === 'QRL' ? 'color-variant' : ''" [expanded]="isExpanded">
+    <mat-expansion-panel-header>
+        <mat-panel-title class="question-text">
+            <p class="question-text">{{ index }} {{ question.text }}</p>
+        </mat-panel-title>
+        <mat-panel-description class="question-options">
+            <p>{{ question.points }} points</p>
+            <p *ngIf="question.type === 'QCM'" class="question-type">QCM<i class="material-icons">widgets</i></p>
+            <p *ngIf="question.type === 'QRL'" class="question-type">QRL<i class="material-icons">article</i></p>
+            <p>Dernière modification: {{ question.lastModification | date: 'dd/MM/yyyy, hh:mm' }}</p>
+            <div class="question-buttons-container">
+                <button
+                    mat-icon-button
+                    color="warn"
+                    appClickStopPropagation
+                    (click)="deleteQuestion()"
+                    matTooltip="Supprimer la question"
+                    matTooltipClass="button-tooltip"
+                >
+                    <mat-icon>delete</mat-icon>
+                </button>
+            </div>
+
+            <div *ngIf="!isBankQuestion" class="drag-container">
+                <ng-content></ng-content>
+                <div class="drag-handle">
+                    <svg class="svg" width="20px" fill="currentColor" viewBox="0 0 24 24">
+                        <path d="M10 9h4V6h3l-5-5-5 5h3v3zm-1 1H6V7l-5 5 5 5v-3h3v-4zm14 2l-5-5v3h-3v4h3v3l5-5zm-9 3h-4v3H7l5 5 5-5h-3v-3z"></path>
+                        <path d="M0 0h24v24H0z" fill="none"></path>
+                    </svg>
+                </div>
+            </div>
+        </mat-panel-description>
+    </mat-expansion-panel-header>
+    <app-question-creation-form
+        [question]="question"
+        [modificationState]="modificationState"
+        (modifyQuestionEvent)="dispatchModifiedQuestion()"
+    ></app-question-creation-form>
+</mat-expansion-panel>
